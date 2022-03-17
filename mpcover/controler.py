@@ -37,7 +37,7 @@ class Controler:
 
         self.__connection.close()
 
-    def __run(self, command: str, *args: List):
+    def __run(self, command: str, *args: str):
         """
         Encode and send a command to the MPD server, then deocde and yeild
         the response.
@@ -77,7 +77,8 @@ class Controler:
             if len(response) == 0:
                 logger.debug('Got no response, attempting to reconnect.')
                 attempts += 1
-                self.__connection = Connection(self.__connection.host, self.__connection.port)
+                self.__connection = Connection(
+                    self.__connection.host, self.__connection.port)
                 self.__connection.recv()
                 continue
 
@@ -108,7 +109,8 @@ class Controler:
 
         return match.group(1), value
 
-    def __parse_items(self, items: List[bytes]) -> Dict[str, Union[str, int, float]]:
+    def __parse_items(self, items: List[bytes]) \
+            -> Dict[str, Union[str, int, float]]:
         """
         Generic response item parser.
 
@@ -245,6 +247,12 @@ class Controler:
         return result
 
     def idle(self, queue: Queue, *subsystems: str):
+        """
+        Removes the connection timeout and runs an `idle` command to monitor
+        specified subsystems. Put the detected change on the provided queue.
+        Blocking, never exits.
+        """
+
         self.__connection.timeout = None
         while True:
             result = self.__parse_items(list(self.__run('idle', *subsystems)))
@@ -252,4 +260,6 @@ class Controler:
             queue.put(result['changed'])
 
 
+    # Remove the `generic_command` decorator. Does not need to be access from
+    # outside this class.
     del __generic_command

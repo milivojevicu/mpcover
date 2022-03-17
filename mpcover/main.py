@@ -12,6 +12,10 @@ logger = logging.getLogger(__name__)
 
 
 def run():
+    """
+    Entry point. Called when the `mpcover` command is called.
+    """
+
     # Default host and port.
     address = '127.0.0.1', 6600
 
