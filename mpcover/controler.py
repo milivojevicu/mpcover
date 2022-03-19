@@ -68,12 +68,20 @@ class Controler:
         attempts = 0
 
         while attempts < 3:
-            # Send command to MPD.
-            self.__connection.send(data)
+            # Set default value of respnse to an empty string,
+            # equates it with getting no respnose from `recv`
+            # in case of broken pipe.
+            response = ''
 
-            # Gather response.
-            response = self.__connection.recv()
+            try:
+                # Send command to MPD.
+                self.__connection.send(data)
+                # Gather response.
+                response = self.__connection.recv()
+            except BrokenPipeError as error:
+                logger.error(error)
 
+            # No respnse, try again.
             if len(response) == 0:
                 logger.debug('Got no response, attempting to reconnect.')
                 attempts += 1
