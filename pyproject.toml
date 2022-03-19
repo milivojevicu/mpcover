@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mpcover"
-version = "0.0.1-alpha1"
+version = "0.1.0-alpha1"
 description = "Python program for displaying album covers of music currently playing through MPD."
 authors = ["Uroš Milivojević <milivojevicu1998@gmail.com>"]
 readme = "README.md"

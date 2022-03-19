@@ -46,7 +46,7 @@ class Root(tk.Tk):
         self.__controler: Controler = Controler(self.__connection)
 
         # Configure window.
-        self.title('PyMPC')
+        self.title('MPCover')
         self.geometry('512x512')
         self.configure(background='#060606')
 
