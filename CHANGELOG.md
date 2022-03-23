@@ -1,5 +1,7 @@
 ## Version 0.1
 
+- [ ] Keybinds for:
+	- [ ] Forcing album art refresh.
 - [ ] Add support for password authentication.
 - [ ] Add ability to change settings:
 - [ ] Through command line arguments,
