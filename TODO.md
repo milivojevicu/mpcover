@@ -5,6 +5,7 @@
 - [ ] Add ability to change settings:
   - [ ] Through command line arguments,
   - [ ] Through a config file.
+- [ ] Better logging.
 - [x] Implement main functionality:
   - [x] Create window with `tkinter`,
   - [x] Get album art from MPD,

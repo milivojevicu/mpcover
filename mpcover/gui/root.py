@@ -94,7 +94,7 @@ class Root(tk.Tk):
         # Process to idle independently of the main GUI process.
         self.__album_process: Process = Process(
             target=self.__album_controler.idle,
-            args=(self.__album_queue, 'player')
+            args=(self.__album_queue, 'player', 'playlist')
         )
         self.__album_process.start()
 
@@ -132,8 +132,22 @@ class Root(tk.Tk):
         larger then that. Calls `display_album_art`.
         """
 
+        # Don't display album art if the current song is stop.
+        playback_state: str = self.__controler.status()['state']
+        if playback_state == 'stop':
+            logger.debug('Song is stopped, won\'t display album art.')
+            self.__clear_album_art()
+            return
+
         # Get album of the currently playing song.
-        album: str = self.__controler.currentsong()['Album']
+        current_song_data: Dict[str, Any] = self.__controler.currentsong()
+        if 'Album' not in current_song_data:
+            # Song does not have an Album tag, just give up... for now?
+            logger.debug('Current song does not have an album tag, giving up...')
+            self.__clear_album_art()
+            return
+        album: str = current_song_data['Album']
+
         # Return if it's the same album as the currently loaded album art.
         if album == self.__album:
             return
@@ -169,8 +183,7 @@ class Root(tk.Tk):
             self.__canvas_width = event.width
             self.__canvas_height = event.height
 
-        # Clear the canvas.
-        self.__canvas.delete('all')
+        self.__clear_album_art()
 
         # If no album art is available, leave the canvas blank.
         if self.__album_art_original is None:
@@ -190,3 +203,7 @@ class Root(tk.Tk):
             self.__canvas_height // 2,
             image=self.__album_art,
         )
+
+    def __clear_album_art(self):
+        self.__album = None
+        self.__canvas.delete('all')

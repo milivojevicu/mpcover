@@ -264,7 +264,7 @@ class Controler:
         self.__connection.timeout = None
         while True:
             result = self.__parse_items(list(self.__run('idle', *subsystems)))
-            logger.debug('Player change detected, puting on queue.')
+            logger.debug('Subsystem change detected, puting on queue.')
             queue.put(result['changed'])
 
 
