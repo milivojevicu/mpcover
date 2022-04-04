@@ -2,9 +2,9 @@
 
 - [ ] Keybinds for:
 	- [ ] Forcing album art refresh.
-- [ ] Add support for password authentication.
+- [x] Add support for password authentication.
 - [ ] Add ability to change settings:
-	- [ ] Through command line arguments,
+	- [x] Through command line arguments,
 	- [ ] Through a config file.
 - [ ] Better logging.
 - [x] Implement main functionality:
