@@ -131,7 +131,8 @@ class Connection:
             recv_data += recv_datum
 
             # Don't exit until all data has been recieved.
-            if len(recv_datum) < self.CHUNK_SIZE:
+            # Match for version output on connection established.
+            if recv_data.endswith(b'OK\n') or re.match('OK MPD .+', recv_data.decode('latin-1')) is not None:
                 break
 
         return recv_data

@@ -18,6 +18,7 @@ class Root(tk.Tk):
     Main graphical user inteface class.
 
     :arg address: A string IP address and an integer port where MPD is running.
+    :arg password: Password for auth with the MPD server.
 
     :var connection: Connection to MPD.
     :var controler: Interface to MPD.
@@ -38,12 +39,12 @@ class Root(tk.Tk):
         command.
     """
 
-    def __init__(self, address: Tuple[str, int]):
+    def __init__(self, address: Tuple[str, int], password: Optional[str]):
         super().__init__()
 
         # Connect to MPD.
         self.__connection: Connection = Connection(*address)
-        self.__controler: Controler = Controler(self.__connection)
+        self.__controler: Controler = Controler(self.__connection, password)
 
         # Configure window.
         self.title('MPCover')
@@ -90,7 +91,7 @@ class Root(tk.Tk):
         self.after(50, self.idle_player_change)
         # New connection for idling.
         self.__album_connection: Connection = Connection(*address)
-        self.__album_controler: Controler = Controler(self.__album_connection)
+        self.__album_controler: Controler = Controler(self.__album_connection, password)
         # Process to idle independently of the main GUI process.
         self.__album_process: Process = Process(
             target=self.__album_controler.idle,

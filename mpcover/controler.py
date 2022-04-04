@@ -1,4 +1,5 @@
 import re
+import sys
 import logging
 from ast import literal_eval
 from enum import Enum
@@ -28,14 +29,36 @@ class Controler:
     RE_INTEGER = re.compile('^[0-9]+$')
     RE_FLOATING = re.compile('^[0-9.]+$')
 
-    def __init__(self, connection: Connection):
+    def __init__(self, connection: Connection, password: Optional[str] = None):
         self.__connection = connection
+        self.__password = password
+
         self.__mpd_version = self.__connection.recv()[7:-1].decode()
+        self.__auth()
 
     def __del__(self):
         """Destructor, closes connection to MPD server."""
 
         self.__connection.close()
+
+    def __auth(self):
+        """
+        Perform authentication.
+
+        :arg password: Optional password.
+        """
+
+        if self.__password is not None:
+            self.__connection.send(f'password "{self.__password}"'.encode())
+            response = self.__connection.recv().decode()
+            if response != 'OK\n':
+                logger.critical('Failed to authenticate with message: %s', response[:-1])
+                logger.critical('Exiting...')
+                sys.exit(201)
+            else:
+                logger.info('Successful authentication.')
+        else:
+            logger.info('No password provided, assuming success connection.')
 
     def __run(self, command: str, *args: str):
         """
@@ -85,9 +108,13 @@ class Controler:
             if len(response) == 0:
                 logger.debug('Got no response, attempting to reconnect.')
                 attempts += 1
+                # Reconnect.
                 self.__connection = Connection(
                     self.__connection.host, self.__connection.port)
+                # Flush MPD version output.
                 self.__connection.recv()
+                # Authenticate.
+                self.__auth()
                 continue
 
             break
@@ -153,9 +180,14 @@ class Controler:
 
                 # Last item, command error.
                 if item[:3] == b'ACK':
-                    # Log error and return.
-                    logger.error(item[3:].decode())
-                    return
+                    if b'you don\'t have permission for' in item:
+                        # No password provided but auth required.
+                        logger.critical(item[3:].decode())
+                        sys.exit(202)
+                    else:
+                        # Log error and return.
+                        logger.error(item[3:].decode())
+                        return
 
                 # Handle binary items.
                 if item[:8] == b'binary: ':
@@ -174,6 +206,11 @@ class Controler:
             # Append byte to buffer.
             item += byte
             size -= 1
+
+        logger.critical(
+            'Should not be possible to get to this point with a valid'
+            ' response from the server, exiting...')
+        sys.exit(203)
 
     def __generic_command(method: callable) -> callable:
         """
