@@ -58,7 +58,7 @@ class Controler:
             else:
                 logger.info('Successful authentication.')
         else:
-            logger.info('No password provided, assuming success connection.')
+            logger.info('No password provided, assuming successful connection.')
 
     def __run(self, command: str, *args: str):
         """

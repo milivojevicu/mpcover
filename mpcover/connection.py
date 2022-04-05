@@ -132,7 +132,7 @@ class Connection:
 
             # Don't exit until all data has been recieved.
             # Match for version output on connection established.
-            if recv_data.endswith(b'OK\n') or recv_data.startswith(b'OK MPD '):
+            if recv_data.endswith(b'OK\n') or recv_data.startswith(b'OK MPD ') or len(recv_data) == 0:
                 break
 
         return recv_data
