@@ -10,7 +10,7 @@ python = "^3.7"
 Pillow = "^9.0.1"
 
 [tool.poetry.scripts]
-mpcover = 'mpcover.main:run'
+mpcover = 'mpcover.__main__:run'
 
 [build-system]
 requires = ["poetry-core"]

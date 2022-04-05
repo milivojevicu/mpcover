@@ -132,7 +132,7 @@ class Connection:
 
             # Don't exit until all data has been recieved.
             # Match for version output on connection established.
-            if recv_data.endswith(b'OK\n') or re.match('OK MPD .+', recv_data.decode('latin-1')) is not None:
+            if recv_data.endswith(b'OK\n') or recv_data.startswith(b'OK MPD '):
                 break
 
         return recv_data
