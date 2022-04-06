@@ -36,6 +36,12 @@ jobs:
       with:
         path: ~/.cache/pypoetry/virtualenvs
         key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+        
+    - name: Install
+      run: |
+        poetry install
+      env:
+        POETRY_VIRTUALENVS_CREATE: false
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
