@@ -13,33 +13,30 @@ logger = logging.getLogger(__name__)
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description='Album cover viewer for MPD.'
-    )
+    parser = argparse.ArgumentParser(description="Album cover viewer for MPD.")
     parser.add_argument(
-        '-a', '--address',
-        metavar='ADDRESS',
+        "-a",
+        "--address",
+        metavar="ADDRESS",
         type=str,
-        default='127.0.0.1',
-        help='MPD server IP address'
+        default="127.0.0.1",
+        help="MPD server IP address",
     )
     parser.add_argument(
-        '-p', '--port',
-        metavar='PORT',
-        type=int,
-        default=6600,
-        help='MPD server port'
+        "-p", "--port", metavar="PORT", type=int, default=6600, help="MPD server port"
     )
     parser.add_argument(
-        '-s', '--pass',
-        metavar='PASSWORD',
-        dest='password',
+        "-s",
+        "--pass",
+        metavar="PASSWORD",
+        dest="password",
         type=str,
         default=None,
-        help='password for auth with the MPD server'
+        help="password for auth with the MPD server",
     )
 
     return parser.parse_args()
+
 
 def run():
     """
@@ -51,5 +48,5 @@ def run():
     init(address, arguments.password)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

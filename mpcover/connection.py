@@ -30,16 +30,22 @@ class Connection:
 
         # Get info about the provided address/port.
         address_info: List[Tuple] = socket.getaddrinfo(
-            host, port, socket.AF_UNSPEC,
-            socket.SOCK_STREAM, socket.IPPROTO_TCP,
+            host,
+            port,
+            socket.AF_UNSPEC,
+            socket.SOCK_STREAM,
+            socket.IPPROTO_TCP,
         )
 
         # Try different combinations until connection is established.
         for address_family, socket_kind, protocol, _, address in address_info:
             try:
                 logger.debug(
-                    'Attempting to connect: %r %r %d %r.',
-                    address_family, socket_kind, protocol, address
+                    "Attempting to connect: %r %r %d %r.",
+                    address_family,
+                    socket_kind,
+                    protocol,
+                    address,
                 )
 
                 # Create a socket with data from `getaddrinfo`.
@@ -51,21 +57,21 @@ class Connection:
                 self.__sock = sock
             except socket.error as error:
                 # Failed to connect.
-                logger.debug('Attempt failed: %r.', error)
+                logger.debug("Attempt failed: %r.", error)
                 if sock is not None:
                     sock.close()
             finally:
                 # If unable to establish connection, exit.
                 if self.__sock is None:
-                    logger.critical('Failed to connect to %s:%d.', host, port)
+                    logger.critical("Failed to connect to %s:%d.", host, port)
                     sys.exit(101)
 
         # If no info was found about the address/port, exit.
         if self.__sock is None:
-            logger.critical('No info found for %s:%d, can\'t connect.', host, port)
+            logger.critical("No info found for %s:%d, can't connect.", host, port)
             sys.exit(102)
 
-        logger.debug('Connected.')
+        logger.debug("Connected.")
 
     def __enter__(self):
         """
@@ -83,7 +89,7 @@ class Connection:
         :arg traceback: Traceback.
         """
 
-        logger.debug('Connection exit: %r %r %r.', exec_type, exec_value, traceback)
+        logger.debug("Connection exit: %r %r %r.", exec_type, exec_value, traceback)
         self.close()
 
         return False
@@ -110,7 +116,7 @@ class Connection:
         :arg send_data: Bytes to send.
         """
 
-        send_data = send_data + '\n'.encode()
+        send_data = send_data + "\n".encode()
         self.__sock.sendall(send_data)
 
     def recv(self) -> bytes:
@@ -121,7 +127,7 @@ class Connection:
         :return: Recieved bytes.
         """
 
-        recv_data = ''.encode()
+        recv_data = "".encode()
 
         # Recieve data in chunks.
         while True:
@@ -132,7 +138,11 @@ class Connection:
 
             # Don't exit until all data has been recieved.
             # Match for version output on connection established.
-            if recv_data.endswith(b'OK\n') or recv_data.startswith(b'OK MPD ') or len(recv_data) == 0:
+            if (
+                recv_data.endswith(b"OK\n")
+                or recv_data.startswith(b"OK MPD ")
+                or len(recv_data) == 0
+            ):
                 break
 
         return recv_data

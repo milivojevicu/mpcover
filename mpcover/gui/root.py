@@ -47,19 +47,21 @@ class Root(tk.Tk):
         self.__controler: Controler = Controler(self.__connection, password)
 
         # Configure window.
-        self.title('MPCover')
-        self.geometry('512x512')
-        self.configure(background='#060606')
+        self.title("MPCover")
+        self.geometry("512x512")
+        self.configure(background="#060606")
 
         # Window close hook.
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
         # Canvas for album art.
         self.__canvas: tk.Canvas = tk.Canvas(
-            self, highlightthickness=0, background='#060606')
+            self, highlightthickness=0, background="#060606"
+        )
         self.__canvas.grid(
-            column=0, row=0, padx=12, pady=12, sticky=(tk.N, tk.W, tk.E, tk.S))
-        self.__canvas.bind('<Configure>', self.__display_album_art)
+            column=0, row=0, padx=12, pady=12, sticky=(tk.N, tk.W, tk.E, tk.S)
+        )
+        self.__canvas.bind("<Configure>", self.__display_album_art)
 
         # Canvas size, updated on `<Configure>` events.
         self.__canvas_width: int = 100
@@ -81,7 +83,7 @@ class Root(tk.Tk):
         self.__album_queue: Queue = Queue()
         # Album name. Used for tracking when the album changes to trigger
         # downloading new album art.
-        self.__album: str = ''
+        self.__album: str = ""
 
         # Player change detection. Starts a new process for idling while
         # waiting for a player change to occur. This process fills a queue
@@ -95,7 +97,7 @@ class Root(tk.Tk):
         # Process to idle independently of the main GUI process.
         self.__album_process: Process = Process(
             target=self.__album_controler.idle,
-            args=(self.__album_queue, 'player', 'playlist')
+            args=(self.__album_queue, "player", "playlist"),
         )
         self.__album_process.start()
 
@@ -134,27 +136,27 @@ class Root(tk.Tk):
         """
 
         # Don't display album art if the current song is stop.
-        playback_state: str = self.__controler.status()['state']
-        if playback_state == 'stop':
-            logger.debug('Song is stopped, won\'t display album art.')
+        playback_state: str = self.__controler.status()["state"]
+        if playback_state == "stop":
+            logger.debug("Song is stopped, won't display album art.")
             self.__clear_album_art()
             return
 
         # Get album of the currently playing song.
         current_song_data: Dict[str, Any] = self.__controler.currentsong()
-        if 'Album' not in current_song_data:
+        if "Album" not in current_song_data:
             # Song does not have an Album tag, just give up... for now?
-            logger.debug('Current song does not have an album tag, giving up...')
+            logger.debug("Current song does not have an album tag, giving up...")
             self.__clear_album_art()
             return
-        album: str = current_song_data['Album']
+        album: str = current_song_data["Album"]
 
         # Return if it's the same album as the currently loaded album art.
         if album == self.__album:
             return
         self.__album = album
 
-        logger.debug('Getting new album art.')
+        logger.debug("Getting new album art.")
 
         # Get album art from MPD.
         data: bytes = self.__controler.albumart()
@@ -163,8 +165,7 @@ class Root(tk.Tk):
             self.__album_art_original = Image.open(io.BytesIO(data))
             # Resize if image is large.
             if self.__album_art_original.size > (512, 512):
-                self.__album_art_original = \
-                    self.__album_art_original.resize((512, 512))
+                self.__album_art_original = self.__album_art_original.resize((512, 512))
         else:
             self.__album_art_original = None
 
@@ -196,7 +197,8 @@ class Root(tk.Tk):
         # Convert the album art image to a Tk Photo Image and resize
         # to match canvas size.
         self.__album_art = ImageTk.PhotoImage(
-            self.__album_art_original.resize((size, size)))
+            self.__album_art_original.resize((size, size))
+        )
 
         # Draw album art to canvas.
         self.__canvas.create_image(
@@ -207,4 +209,4 @@ class Root(tk.Tk):
 
     def __clear_album_art(self):
         self.__album = None
-        self.__canvas.delete('all')
+        self.__canvas.delete("all")
