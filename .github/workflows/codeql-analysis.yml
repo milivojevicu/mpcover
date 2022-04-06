@@ -29,9 +29,6 @@ jobs:
       
     - name: Setup Poetry
       uses: Gr1N/setup-poetry@v7
-      with:
-        poetry-preview: true
-    - run: poetry --version
 
     - name: Cache Virtual Environment
       uses: actions/cache@v2
@@ -41,7 +38,7 @@ jobs:
         
     - name: Install
       run: |
-        poetry install
+        poetry install --no-dev
       env:
         POETRY_VIRTUALENVS_CREATE: false
 
