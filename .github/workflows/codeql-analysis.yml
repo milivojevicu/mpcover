@@ -26,8 +26,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      
+    - name: Setup Poetry
+      uses: Gr1N/setup-poetry@v7
+    - run: poetry --version
 
-    # Initializes the CodeQL tools for scanning.
+    - name: Cache Virtual Environment
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pypoetry/virtualenvs
+        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
