@@ -1,9 +1,9 @@
+import logging
 import re
+import socket
 import sys
 import time
-import socket
-import logging
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 

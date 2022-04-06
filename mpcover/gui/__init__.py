@@ -1,7 +1,7 @@
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
-from .root import Root
 from ..controler import Controler
+from .root import Root
 
 
 def init(address: Tuple[str, int], password: Optional[str]):

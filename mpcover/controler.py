@@ -1,12 +1,12 @@
+import logging
 import re
 import sys
-import logging
 from ast import literal_eval
 from enum import Enum
-from socket import timeout
-from typing import List, Dict, Union, Optional
-from tkinter import Tk
 from multiprocessing import Queue
+from socket import timeout
+from tkinter import Tk
+from typing import Dict, List, Optional, Union
 
 from .connection import Connection
 

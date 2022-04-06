@@ -1,8 +1,8 @@
 #!python
 
-import sys
-import logging
 import argparse
+import logging
+import sys
 from tkinter import Tk
 
 from .controler import Controler

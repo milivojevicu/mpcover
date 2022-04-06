@@ -1,14 +1,14 @@
 import io
 import tkinter as tk
-from typing import Tuple, Optional
-from tkinter import ttk
 from logging import getLogger
-from multiprocessing import Queue, Process
+from multiprocessing import Process, Queue
+from tkinter import ttk
+from typing import Optional, Tuple
 
 from PIL import Image, ImageTk
 
-from ..controler import Controler
 from ..connection import Connection
+from ..controler import Controler
 
 logger = getLogger(__name__)
 
