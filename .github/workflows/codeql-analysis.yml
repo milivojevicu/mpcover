@@ -29,6 +29,8 @@ jobs:
       
     - name: Setup Poetry
       uses: Gr1N/setup-poetry@v7
+      with:
+        poetry-preview: true
     - run: poetry --version
 
     - name: Cache Virtual Environment
