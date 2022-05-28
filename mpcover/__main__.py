@@ -2,10 +2,7 @@
 
 import argparse
 import logging
-import sys
-from tkinter import Tk
 
-from .controler import Controler
 from .gui import init
 
 logging.basicConfig(level=logging.DEBUG)

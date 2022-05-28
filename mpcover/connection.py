@@ -1,8 +1,6 @@
 import logging
-import re
 import socket
 import sys
-import time
 from typing import List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
@@ -26,7 +24,7 @@ class Connection:
         self.port = port
 
         # Initialize a variable for the socket.
-        self.__sock: Optional[socket.socket] = None
+        self.__sock: socket.socket
 
         # Get info about the provided address/port.
         address_info: List[Tuple] = socket.getaddrinfo(
@@ -39,6 +37,7 @@ class Connection:
 
         # Try different combinations until connection is established.
         for address_family, socket_kind, protocol, _, address in address_info:
+            sock: Optional[socket.socket] = None
             try:
                 logger.debug(
                     "Attempting to connect: %r %r %d %r.",
@@ -95,7 +94,7 @@ class Connection:
         return False
 
     @property
-    def timeout(self) -> Optional[int]:
+    def timeout(self) -> Optional[float]:
         return self.__sock.gettimeout()
 
     @timeout.setter

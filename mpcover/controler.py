@@ -1,12 +1,8 @@
 import logging
 import re
 import sys
-from ast import literal_eval
-from enum import Enum
 from multiprocessing import Queue
-from socket import timeout
-from tkinter import Tk
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Tuple, Iterable, Callable
 
 from .connection import Connection
 
@@ -34,6 +30,7 @@ class Controler:
         self.__password = password
 
         self.__mpd_version = self.__connection.recv()[7:-1].decode()
+        logging.info("MPD %s", self.__mpd_version)
         self.__auth()
 
     def __del__(self):
@@ -92,12 +89,11 @@ class Controler:
 
         attempts = 0
 
+        # Set default value of respnse to an empty string,
+        # equates it with getting no respnose from `recv`
+        # in case of broken pipe.
+        response = "".encode("UTF-8")
         while attempts < 3:
-            # Set default value of respnse to an empty string,
-            # equates it with getting no respnose from `recv`
-            # in case of broken pipe.
-            response = ""
-
             try:
                 # Send command to MPD.
                 self.__connection.send(data)
@@ -124,7 +120,7 @@ class Controler:
 
         yield from self.__parse_response(response)
 
-    def __parse_item(self, item: bytes) -> (str, Union[str, int, float, bytes]):
+    def __parse_item(self, item: bytes) -> Tuple[str, Union[str, int, float, bytes]]:
         """
         Generic parser for single items from a response.
 
@@ -138,6 +134,9 @@ class Controler:
         # Get groups.
         match = self.RE_ITEM.match(item.decode())
 
+        if match is None:
+            return "", ""
+
         # Evaluate value.
         value = match.group(2)
         if self.RE_INTEGER.match(value):
@@ -147,7 +146,7 @@ class Controler:
 
         return match.group(1), value
 
-    def __parse_items(self, items: List[bytes]) -> Dict[str, Union[str, int, float]]:
+    def __parse_items(self, items: List[bytes]) -> Dict[str, Union[str, int, float, bytes]]:
         """
         Generic response item parser.
 
@@ -156,7 +155,7 @@ class Controler:
 
         return dict([self.__parse_item(item) for item in items])
 
-    def __parse_response(self, response: bytes) -> List[bytes]:
+    def __parse_response(self, response: bytes) -> Iterable[bytes]:
         """
         TODO
         """
@@ -215,7 +214,8 @@ class Controler:
         )
         sys.exit(203)
 
-    def __generic_command(method: callable) -> callable:
+    @staticmethod
+    def __generic_command(method: Callable) -> Callable:
         """
         Decorator for generic command methods. Uses the method name as the
             command.
@@ -231,27 +231,27 @@ class Controler:
         )
 
     @__generic_command
-    def stats(self) -> Dict[str, int]:
+    def stats(self):
         """
         Get statistics.
 
-        :return: Dictionary with statistics.
+        :return: Dictionary with statistics (`Dict[str, int]`).
         """
 
     @__generic_command
-    def status(self) -> Dict[str, Union[str, int]]:
+    def status(self):
         """
         Get player and volume status.
 
-        :return: Dictionary with status.
+        :return: Dictionary with status (`Dict[str, Union[str, int]]`).
         """
 
     @__generic_command
-    def currentsong(self) -> Dict[str, Union[str, int]]:
+    def currentsong(self):
         """
         Get current song info.
 
-        :return: Dictionary with information about the currently active song.
+        :return: Dictionary with information about the currently active song (`Dict[str, Union[str, int]]`).
         """
 
     def albumart(self, path: Optional[str] = None) -> Optional[bytes]:
@@ -265,18 +265,21 @@ class Controler:
         """
 
         # Get current song path if no path was provided.
+        real_path: str
         if path is None:
-            path = self.currentsong()["file"]
+            real_path = self.currentsong()["file"]
+        else:
+            real_path = path
 
         # Initliaize offset counter, total size and result buffer.
-        offset = 0
-        size = 1
-        result = b""
+        offset: int = 0
+        size: int = 1
+        result: bytes = b""
 
         # Load chunks until offset reaches end of file.
         while offset < size:
             # Run command with offset.
-            items = list(self.__run("albumart", path, offset))
+            items = list(self.__run("albumart", real_path, offset))
             # If length of items is 0, an error occured. Requested album art
             # probably does not exist.
             if len(items) == 0:

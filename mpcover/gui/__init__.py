@@ -1,6 +1,5 @@
 from typing import Optional, Tuple
 
-from ..controler import Controler
 from .root import Root
 
 

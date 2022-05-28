@@ -1,5 +1,8 @@
 ## Version 0.1
 
+- [ ] Handle no album art being available.
+	- [x] When no song is playing.
+	- [ ] When the file is missing.
 - [ ] Keybinds for:
 	- [ ] Forcing album art refresh.
 - [x] Add support for password authentication.

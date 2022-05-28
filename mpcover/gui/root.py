@@ -2,10 +2,9 @@ import io
 import tkinter as tk
 from logging import getLogger
 from multiprocessing import Process, Queue
-from tkinter import ttk
-from typing import Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
-from PIL import Image, ImageTk
+from PIL import ImageTk, Image
 
 from ..connection import Connection
 from ..controler import Controler
@@ -58,9 +57,7 @@ class Root(tk.Tk):
         self.__canvas: tk.Canvas = tk.Canvas(
             self, highlightthickness=0, background="#060606"
         )
-        self.__canvas.grid(
-            column=0, row=0, padx=12, pady=12, sticky=(tk.N, tk.W, tk.E, tk.S)
-        )
+        self.__canvas.grid(column=0, row=0, padx=12, pady=12, sticky="nwes")
         self.__canvas.bind("<Configure>", self.__display_album_art)
 
         # Canvas size, updated on `<Configure>` events.
@@ -76,7 +73,7 @@ class Root(tk.Tk):
         # the original image when resizing instead of the displayed one.
         # Always first resized to 512x512 for better performance with rapid
         # window size changes.
-        self.__album_art_original: Optional[Image] = None
+        self.__album_art_original: Optional[Image.Image] = None
         # Image rescaled for window size.
         self.__album_art: Optional[ImageTk.PhotoImage] = None
         # Queue for passing changes from the album process.
@@ -159,10 +156,11 @@ class Root(tk.Tk):
         logger.debug("Getting new album art.")
 
         # Get album art from MPD.
-        data: bytes = self.__controler.albumart()
+        data: Optional[bytes] = self.__controler.albumart()
         if data is not None:
             # Open as Pillow image.
             self.__album_art_original = Image.open(io.BytesIO(data))
+            logger.debug(type(self.__album_art_original))
             # Resize if image is large.
             if self.__album_art_original.size > (512, 512):
                 self.__album_art_original = self.__album_art_original.resize((512, 512))
@@ -208,5 +206,5 @@ class Root(tk.Tk):
         )
 
     def __clear_album_art(self):
-        self.__album = None
+        self.__album = ""
         self.__canvas.delete("all")
