@@ -6,15 +6,44 @@ authors = ["Uroš Milivojević <milivojevicu1998@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.7.2"
 Pillow = "^9.2.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.10.1"
 black = "^22.3.0"
+pycln = "^2.1.1"
+pylint = "^2.15.3"
 
 [tool.poetry.scripts]
 mpcover = 'mpcover.__main__:run'
+
+[tool.pylint.basic]
+fail-under = 9.0
+py-version = "3.7.0"
+jobs = 0
+good-names = [ "i", "j", "k", "ex", "Run", "_", "id", "x", "y" ]
+
+
+[tool.pylint.messages_control]
+disable = ["import-error"]
+enable = "c-extension-no-member"
+
+[tool.pylint.format]
+max-line-length = 100
+max-module-lines = 1000
+indent-after-paren = 4
+
+[tool.isort]
+profile = "black"
+
+[tool.pycln]
+all = true
+exclude = "__init__.py"
+
+[tool.black]
+line-length = 100
+target-version = ["py37", "py38", "py39", "py310"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
