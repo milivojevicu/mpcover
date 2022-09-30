@@ -4,7 +4,7 @@ from logging import getLogger
 from multiprocessing import Process, Queue
 from typing import Any, Dict, Optional, Tuple
 
-from PIL import ImageTk, Image
+from PIL import Image, ImageTk
 
 from ..connection import Connection
 from ..controler import Controler
@@ -54,9 +54,7 @@ class Root(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
         # Canvas for album art.
-        self.__canvas: tk.Canvas = tk.Canvas(
-            self, highlightthickness=0, background="#060606"
-        )
+        self.__canvas: tk.Canvas = tk.Canvas(self, highlightthickness=0, background="#060606")
         self.__canvas.grid(column=0, row=0, padx=12, pady=12, sticky="nwes")
         self.__canvas.bind("<Configure>", self.__display_album_art)
 
@@ -194,9 +192,7 @@ class Root(tk.Tk):
 
         # Convert the album art image to a Tk Photo Image and resize
         # to match canvas size.
-        self.__album_art = ImageTk.PhotoImage(
-            self.__album_art_original.resize((size, size))
-        )
+        self.__album_art = ImageTk.PhotoImage(self.__album_art_original.resize((size, size)))
 
         # Draw album art to canvas.
         self.__canvas.create_image(

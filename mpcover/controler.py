@@ -2,7 +2,7 @@ import logging
 import re
 import sys
 from multiprocessing import Queue
-from typing import Dict, List, Optional, Union, Tuple, Iterable, Callable
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 from .connection import Connection
 
@@ -49,9 +49,7 @@ class Controler:
             self.__connection.send(f'password "{self.__password}"'.encode())
             response = self.__connection.recv().decode()
             if response != "OK\n":
-                logger.critical(
-                    "Failed to authenticate with message: %s", response[:-1]
-                )
+                logger.critical("Failed to authenticate with message: %s", response[:-1])
                 logger.critical("Exiting...")
                 sys.exit(201)
             else:
@@ -107,9 +105,7 @@ class Controler:
                 logger.debug("Got no response, attempting to reconnect.")
                 attempts += 1
                 # Reconnect.
-                self.__connection = Connection(
-                    self.__connection.host, self.__connection.port
-                )
+                self.__connection = Connection(self.__connection.host, self.__connection.port)
                 # Flush MPD version output.
                 self.__connection.recv()
                 # Authenticate.
@@ -226,9 +222,7 @@ class Controler:
             output.
         """
 
-        return lambda self: self.__parse_items(
-            list(self.__run(method.__code__.co_name))
-        )
+        return lambda self: self.__parse_items(list(self.__run(method.__code__.co_name)))
 
     @__generic_command
     def stats(self):
