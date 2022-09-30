@@ -29,16 +29,10 @@ jobs:
       
     - name: Setup Poetry
       uses: Gr1N/setup-poetry@v7
-
-    - name: Cache Virtual Environment
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
         
     - name: Install
       run: |
-        poetry install --no-dev
+        poetry install
       env:
         POETRY_VIRTUALENVS_CREATE: false
 
