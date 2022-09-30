@@ -32,9 +32,7 @@ jobs:
         
     - name: Install
       run: |
-        poetry install
-      env:
-        POETRY_VIRTUALENVS_CREATE: false
+        poetry install -vv
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
