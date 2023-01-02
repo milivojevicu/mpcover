@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7.2"
-Pillow = "^9.3.0"
+Pillow = "^9.4.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.10.1"
