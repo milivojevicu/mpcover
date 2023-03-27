@@ -13,7 +13,7 @@ Pillow = "^9.4.0"
 isort = "^5.11.4"
 black = "^22.12.0"
 pycln = "^2.1.2"
-pylint = "^2.15.9"
+pylint = "^2.17.1"
 
 [tool.poetry.scripts]
 mpcover = 'mpcover.__main__:run'
