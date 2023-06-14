@@ -275,7 +275,7 @@ class Controler:
         # Load chunks until offset reaches end of file.
         while offset < size:
             # Run command with offset.
-            items = list(self.run("albumart", real_path, offset))
+            items = list(self.run("albumart", real_path, str(offset)))
             # If length of items is 0, an error occured. Requested album art
             # probably does not exist.
             if len(items) == 0:
@@ -283,14 +283,18 @@ class Controler:
 
             # Parse items.
             items = self.parse_items(items)
+            # Get data from parsed items.
+            items_binary: int = items["binary"]  # type: ignore
+            items_binary_data: bytes = items["binary_data"]  # type: ignore
+            items_size: int = items["size"]  # type: ignore
 
             # Increase offset with size of recieved binary data.
-            offset += items["binary"]
-            # Append new binary data to result.
-            result += items["binary_data"]
+            offset += items_binary
             # Update size again since it's probably faster then an if
             # statement and MPD always returns the same size.
-            size = items["size"]
+            size = items_size
+            # Append new binary data to result.
+            result += items_binary_data
 
         return result
 
