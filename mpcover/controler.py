@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 import re
 import sys
@@ -7,6 +9,20 @@ from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 from .connection import Connection
 
 logger = logging.getLogger(__name__)
+
+
+def generic_command(method: Callable) -> Callable:
+    """
+    Decorator for generic command methods. Uses the method name as the
+        command.
+
+    :arg method: The method being decorated.
+
+    :return: Lambda function for running the generic command and parsing its
+        output.
+    """
+
+    return lambda self: self.parse_items(list(self.run(method.__code__.co_name)))
 
 
 class Controler:
@@ -57,7 +73,7 @@ class Controler:
         else:
             logger.info("No password provided, assuming successful connection.")
 
-    def __run(self, command: str, *args: str):
+    def run(self, command: str, *args: str):
         """
         Encode and send a command to the MPD server, then deocde and yeild
         the response.
@@ -142,7 +158,7 @@ class Controler:
 
         return match.group(1), value
 
-    def __parse_items(self, items: List[bytes]) -> Dict[str, Union[str, int, float, bytes]]:
+    def parse_items(self, items: List[bytes]) -> Dict[str, Union[str, int, float, bytes]]:
         """
         Generic response item parser.
 
@@ -210,21 +226,7 @@ class Controler:
         )
         sys.exit(203)
 
-    @staticmethod
-    def __generic_command(method: Callable) -> Callable:
-        """
-        Decorator for generic command methods. Uses the method name as the
-            command.
-
-        :arg method: The method being decorated.
-
-        :return: Lambda function for running the generic command and parsing its
-            output.
-        """
-
-        return lambda self: self.__parse_items(list(self.__run(method.__code__.co_name)))
-
-    @__generic_command
+    @generic_command
     def stats(self):
         """
         Get statistics.
@@ -232,7 +234,7 @@ class Controler:
         :return: Dictionary with statistics (`Dict[str, int]`).
         """
 
-    @__generic_command
+    @generic_command
     def status(self):
         """
         Get player and volume status.
@@ -240,7 +242,7 @@ class Controler:
         :return: Dictionary with status (`Dict[str, Union[str, int]]`).
         """
 
-    @__generic_command
+    @generic_command
     def currentsong(self):
         """
         Get current song info.
@@ -273,14 +275,14 @@ class Controler:
         # Load chunks until offset reaches end of file.
         while offset < size:
             # Run command with offset.
-            items = list(self.__run("albumart", real_path, offset))
+            items = list(self.run("albumart", real_path, offset))
             # If length of items is 0, an error occured. Requested album art
             # probably does not exist.
             if len(items) == 0:
                 return None
 
             # Parse items.
-            items = self.__parse_items(items)
+            items = self.parse_items(items)
 
             # Increase offset with size of recieved binary data.
             offset += items["binary"]
@@ -301,10 +303,6 @@ class Controler:
 
         self.__connection.timeout = None
         while True:
-            result = self.__parse_items(list(self.__run("idle", *subsystems)))
+            result = self.parse_items(list(self.run("idle", *subsystems)))
             logger.debug("Subsystem change detected, puting on queue.")
             queue.put(result["changed"])
-
-    # Remove the `generic_command` decorator. Does not need to be access from
-    # outside this class.
-    del __generic_command

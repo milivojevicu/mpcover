@@ -48,7 +48,7 @@ class Root(tk.Tk):
         # Configure window.
         self.title("MPCover")
         self.geometry("512x512")
-        self.configure(background="#060606")
+        self.configure(background="#3B4252")
 
         # Window close hook.
         self.protocol("WM_DELETE_WINDOW", self.on_close)
