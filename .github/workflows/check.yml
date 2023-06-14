@@ -16,9 +16,10 @@ jobs:
       with:
         python-version: "3.10"
     - name: Checkout repository
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v3
     - name: Setup Poetry
-      uses: Gr1N/setup-poetry@v7
+      run: |
+        pip install poetry
     - name: Install dependencies
       run: |
         poetry install --only=dev
@@ -34,9 +35,10 @@ jobs:
       with:
         python-version: "3.10"
     - name: Checkout repository
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v3
     - name: Setup Poetry
-      uses: Gr1N/setup-poetry@v7
+      run: |
+        pip install poetry
     - name: Install dependencies
       run: |
         poetry install --only=dev
@@ -52,9 +54,10 @@ jobs:
       with:
         python-version: "3.10"
     - name: Checkout repository
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v3
     - name: Setup Poetry
-      uses: Gr1N/setup-poetry@v7
+      run: |
+        pip install poetry
     - name: Install dependencies
       run: |
         poetry install --only=dev
@@ -70,9 +73,10 @@ jobs:
       with:
         python-version: "3.10"
     - name: Checkout repository
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v3
     - name: Setup Poetry
-      uses: Gr1N/setup-poetry@v7
+      run: |
+        pip install poetry
     - name: Install dependencies
       run: |
         poetry install --only=dev
