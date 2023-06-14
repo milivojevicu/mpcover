@@ -1,0 +1,81 @@
+name: checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pycln:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Checkout repository
+      uses: actions/checkout@v3  
+    - name: Setup Poetry
+      uses: Gr1N/setup-poetry@v7
+    - name: Install dependencies
+      run: |
+        poetry install --only=dev
+    - name: Checking code formatting with black
+      run: |
+        poetry run pycln --config=pyproject.toml --check $(git ls-files '*.py')
+  isort:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Checkout repository
+      uses: actions/checkout@v3  
+    - name: Setup Poetry
+      uses: Gr1N/setup-poetry@v7
+    - name: Install dependencies
+      run: |
+        poetry install --only=dev
+    - name: Checking code formatting with black
+      run: |
+        poetry run isort --check $(git ls-files '*.py')
+  black:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Checkout repository
+      uses: actions/checkout@v3  
+    - name: Setup Poetry
+      uses: Gr1N/setup-poetry@v7
+    - name: Install dependencies
+      run: |
+        poetry install --only=dev
+    - name: Checking code formatting with black
+      run: |
+        poetry run black --check $(git ls-files '*.py')
+  pyright:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Checkout repository
+      uses: actions/checkout@v3  
+    - name: Setup Poetry
+      uses: Gr1N/setup-poetry@v7
+    - name: Install dependencies
+      run: |
+        poetry install --only=dev
+    - name: Checking code formatting with black
+      run: |
+        poetry run pyright $(git ls-files '*.py')
