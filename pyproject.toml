@@ -18,7 +18,7 @@ pycln = "^2.1.2"
 mpcover = 'mpcover.__main__:run'
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.314"
+pyright = "^1.1.318"
 
 [tool.isort]
 profile = "black"
