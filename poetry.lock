@@ -281,21 +281,21 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-
 
 [[package]]
 name = "pycln"
-version = "2.1.5"
+version = "2.2.1"
 description = "A formatter for finding and removing unused import statements."
 optional = false
 python-versions = ">=3.6.2,<4"
 files = [
-    {file = "pycln-2.1.5-py3-none-any.whl", hash = "sha256:1e1f2542aabc8942fd945bbecd39b55ed5f25cd9a70fa116a554cceaab4fdc3b"},
-    {file = "pycln-2.1.5.tar.gz", hash = "sha256:5029007881d00b87bfc8831ef7cf59c90cc214fbbcc8773f0a9560ddef8d150a"},
+    {file = "pycln-2.2.1-py3-none-any.whl", hash = "sha256:686f55b511d11d7f114dcbe0c7d1512443441e1dd00a74ee9ba6b6c1b775c9e2"},
+    {file = "pycln-2.2.1.tar.gz", hash = "sha256:560ed5dec5e44d3250ed1cd6b080080c4022c24dfd2840902113b42d31775bd0"},
 ]
 
 [package.dependencies]
-libcst = {version = ">=0.3.10,<0.5.0", markers = "python_version >= \"3.7\""}
-pathspec = ">=0.9.0,<0.12.0"
-pyyaml = ">=5.3.1,<7.0.0"
-tomlkit = ">=0.11.1,<0.12.0"
-typer = ">=0.4.1,<0.10.0"
+libcst = {version = ">=0.3.10", markers = "python_version >= \"3.7\""}
+pathspec = ">=0.9.0"
+pyyaml = ">=5.3.1"
+tomlkit = ">=0.11.1"
+typer = ">=0.4.1"
 
 [[package]]
 name = "pyright"
@@ -501,4 +501,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7.2"
-content-hash = "27cce326779d8662a223e5520c30e5522ac414cf04c1f8ae94a95843134cc764"
+content-hash = "77f96697e07565c656bd434618fb65e3a35da61ae2fe0739182727472bf2808f"
