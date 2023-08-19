@@ -45,16 +45,21 @@ class Root(tk.Tk):
         self.__connection: Connection = Connection(*address)
         self.__controler: Controler = Controler(self.__connection, password)
 
+        # Colors.
+        self.__color_background: str = "#141414"  # Dark gray.
+
         # Configure window.
         self.title("MPCover")
         self.geometry("512x512")
-        self.configure(background="#3B4252")
+        self.configure(background=self.__color_background)
 
         # Window close hook.
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
         # Canvas for album art.
-        self.__canvas: tk.Canvas = tk.Canvas(self, highlightthickness=0, background="#060606")
+        self.__canvas: tk.Canvas = tk.Canvas(
+            self, highlightthickness=0, background=self.__color_background
+        )
         self.__canvas.grid(column=0, row=0, padx=12, pady=12, sticky="nwes")
         self.__canvas.bind("<Configure>", self.__display_album_art)
 

@@ -6,19 +6,20 @@ authors = ["Uroš Milivojević <milivojevicu1998@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7.2"
+python = "^3.8.0"
 Pillow = "^9.4.0"
-
-[tool.poetry.dev-dependencies]
-isort = "^5.11.4"
-black = "^22.12.0"
-pycln = "^2.1.2"
 
 [tool.poetry.scripts]
 mpcover = 'mpcover.__main__:run'
 
+[tool.poetry.group.dev]
+optional = true
+
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.314"
+isort = "^5.12.0"
+pycln = "^2.2.2"
+black = "^23.7.0"
+pyright = "^1.1.323"
 
 [tool.isort]
 profile = "black"
