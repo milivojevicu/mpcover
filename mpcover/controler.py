@@ -171,7 +171,12 @@ class Controler:
 
     def __parse_response(self, response: bytes) -> Iterable[bytes]:
         """
-        TODO
+        Processs the response sent by MPD. Yields items.
+
+        :arg response: Response from MPD. Can be empty in case of connection issues.
+
+        :return: Yeilds byte arrays, one per item in response. No response from MPD returns an
+            empty list.
         """
 
         # Items are spearated by '\n' characters.
