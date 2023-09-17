@@ -1,12 +1,16 @@
 import configparser
 import os.path
 
-__DEFAULTS_CONN = {
+__DEFAULTS_CONNECTION = {
     "host": "localhost",
     "port": 6600,
 }
 
-__DEFAULTS_BIND = {
+__DEFAULTS_LOGGING = {
+    "level": "info",
+}
+
+__DEFAULTS_BINDS = {
     "refresh": "r",
 }
 
@@ -26,8 +30,9 @@ def get_config():
     config = configparser.ConfigParser()
 
     # Load default settings.
-    config.read_dict({"connection": __DEFAULTS_CONN})
-    config.read_dict({"binds": __DEFAULTS_BIND})
+    config.read_dict({"connection": __DEFAULTS_CONNECTION})
+    config.read_dict({"logging": __DEFAULTS_LOGGING})
+    config.read_dict({"binds": __DEFAULTS_BINDS})
 
     # Read user settings from a file.
     config.read(os.path.expanduser(os.path.join("~", ".mpcover.ini")))

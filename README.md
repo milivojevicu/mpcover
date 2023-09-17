@@ -21,6 +21,9 @@ port = 6600
 host = localhost
 password = example_password
 
+[logging]
+level = info
+
 [binds]
 # The values should be `tkinter` key bind strings.
 refresh = r
