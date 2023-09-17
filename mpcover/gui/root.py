@@ -1,15 +1,15 @@
+import configparser
 import io
 import tkinter as tk
 from logging import getLogger
 from multiprocessing import Process, Queue
-import configparser
 from typing import Any, Dict, Optional, Tuple
 
 from PIL import Image, ImageTk
 
+from ..config import get_config
 from ..connection import Connection
 from ..controler import Controler
-from ..config import get_config
 
 logger = getLogger(__name__)
 
