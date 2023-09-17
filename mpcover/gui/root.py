@@ -104,6 +104,9 @@ class Root(tk.Tk):
         # Initial album art get.
         self.__get_album_art()
 
+        # Handle whole window keybinds.
+        self.bind("r", self.__get_album_art)
+
     def on_close(self):
         """
         Called by `tkinter` on window close. The `tkinter` window can close on
@@ -128,11 +131,13 @@ class Root(tk.Tk):
         # Run again in .5 seconds.
         self.after(50, self.idle_player_change)
 
-    def __get_album_art(self):
+    def __get_album_art(self, _: Optional[Any] = None):
         """
         Downloads album art for the current song if the album has changed
         since the last call. Resizes the downloaded art to 512x512 if it's
         larger then that. Calls `display_album_art`.
+
+        :arg _: Unused argument for the keybind.
         """
 
         # Don't display album art if the current song is stop.
