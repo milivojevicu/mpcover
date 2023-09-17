@@ -73,7 +73,7 @@ class Controler:
         else:
             logger.info("No password provided, assuming successful connection.")
 
-    def run(self, command: str, *args: str):
+    def run(self, command: str, *args: str) -> Iterable[bytes]:
         """
         Encode and send a command to the MPD server, then deocde and yeild
         the response.
@@ -114,6 +114,8 @@ class Controler:
                 # Gather response.
                 response = self.__connection.recv()
             except BrokenPipeError as error:
+                logger.error(error)
+            except OSError as error:
                 logger.error(error)
 
             # No respnse, try again.
@@ -220,11 +222,19 @@ class Controler:
             item += byte
             size -= 1
 
+        # Removed when fixing issue #6 in pull request #TODO. Missing album art
+        # causes MPD to not return anything, so this is a workaround. The accompanying
+        # change to the `run` method cathes the `OSErrror`s produced by the socket
+        # and in that case this method gets no repsonse, and an empty response is passed on.
+        """
         logger.critical(
             "Should not be possible to get to this point with a valid"
             " response from the server, exiting..."
         )
         sys.exit(203)
+        """
+
+        return []
 
     @generic_command
     def stats(self):
