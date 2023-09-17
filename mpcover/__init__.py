@@ -1,4 +1,5 @@
 import logging
+
 from .config import get_config
 
 logging.basicConfig(
