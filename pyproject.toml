@@ -19,7 +19,7 @@ optional = true
 isort = "^5.12.0"
 pycln = "^2.2.2"
 black = "^23.9.1"
-pyright = "^1.1.323"
+pyright = "^1.1.327"
 
 [tool.isort]
 profile = "black"
