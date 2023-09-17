@@ -222,7 +222,7 @@ class Controler:
             item += byte
             size -= 1
 
-        # Removed when fixing issue #6 in pull request #TODO. Missing album art
+        # Removed when fixing issue #6 in pull request #53. Missing album art
         # causes MPD to not return anything, so this is a workaround. The accompanying
         # change to the `run` method cathes the `OSErrror`s produced by the socket
         # and in that case this method gets no repsonse, and an empty response is passed on.
