@@ -4,6 +4,14 @@
 
 Python program for displaying album covers of music currently playing through MPD using tkinter.
 
+## Installation
+
+Install the package from PyPI using `pip`:
+
+```bash
+pip install mpcover
+```
+
 ## Configuration
 
 The configuration file should be located in the user home directory with the name ".mpcover.init".
@@ -28,3 +36,4 @@ level = info
 # The values should be `tkinter` key bind strings.
 refresh = r
 ```
+
