@@ -1,3 +1,4 @@
+import configparser
 import io
 import tkinter as tk
 from logging import getLogger
@@ -6,6 +7,7 @@ from typing import Any, Dict, Optional, Tuple
 
 from PIL import Image, ImageTk
 
+from ..config import get_config
 from ..connection import Connection
 from ..controler import Controler
 
@@ -40,6 +42,8 @@ class Root(tk.Tk):
 
     def __init__(self, address: Tuple[str, int], password: Optional[str]):
         super().__init__()
+
+        config: configparser.ConfigParser = get_config()
 
         # Connect to MPD.
         self.__connection: Connection = Connection(*address)
@@ -105,7 +109,7 @@ class Root(tk.Tk):
         self.__get_album_art()
 
         # Handle whole window keybinds.
-        self.bind("r", self.__get_album_art)
+        self.bind(config.get("binds", "refresh"), self.__get_album_art)
 
     def on_close(self):
         """

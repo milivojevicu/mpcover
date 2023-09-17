@@ -1,9 +1,8 @@
 ## Version 0.2.0
 
-- [ ] Handle no album art being available when the file is missing.
-- [ ] Keybinds for forcing album art refresh.
-- [ ] Add ability to change settings through a config file.
-- [ ] Better logging.
+- [x] Handle no album art being available when the file is missing.
+- [x] Keybinds for forcing album art refresh.
+- [x] Add ability to change settings through a config file.
 
 ## Version 0.1.0
 
