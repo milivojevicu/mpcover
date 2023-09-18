@@ -10,6 +10,11 @@ __DEFAULTS_LOGGING = {
     "level": "info",
 }
 
+__DEFAULTS_STYLE = {
+    "padding": 12,
+    "background": "#141414",
+}
+
 __DEFAULTS_BINDS = {
     "refresh": "r",
 }
@@ -32,6 +37,7 @@ def get_config():
     # Load default settings.
     config.read_dict({"connection": __DEFAULTS_CONNECTION})
     config.read_dict({"logging": __DEFAULTS_LOGGING})
+    config.read_dict({"style": __DEFAULTS_STYLE})
     config.read_dict({"binds": __DEFAULTS_BINDS})
 
     # Read user settings from a file.
