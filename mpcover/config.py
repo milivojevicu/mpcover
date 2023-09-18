@@ -17,6 +17,7 @@ __DEFAULTS_STYLE = {
 
 __DEFAULTS_BINDS = {
     "refresh": "r",
+    "quit": "q",
 }
 
 __CONFIG = None
