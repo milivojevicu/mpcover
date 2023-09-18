@@ -59,7 +59,7 @@ class Root(tk.Tk):
         self.configure(background=self.__color_background)
 
         # Window close hook.
-        self.protocol("WM_DELETE_WINDOW", self.on_close)
+        self.protocol("WM_DELETE_WINDOW", self.close)
 
         # Canvas for album art.
         self.__canvas: tk.Canvas = tk.Canvas(
@@ -110,9 +110,12 @@ class Root(tk.Tk):
         self.__get_album_art()
 
         # Handle whole window keybinds.
-        self.bind(config.get("binds", "refresh"), self.__get_album_art)
+        # The lambda functions are there just to capture the `event` argument without passing
+        # it to the actaul functions since they don't need it.
+        self.bind(config.get("binds", "refresh"), lambda event: self.__get_album_art())
+        self.bind(config.get("binds", "quit"), lambda event: self.close())
 
-    def on_close(self):
+    def close(self):
         """
         Called by `tkinter` on window close. The `tkinter` window can close on
         its own, this only overrides the closing process to terminate the
@@ -136,13 +139,11 @@ class Root(tk.Tk):
         # Run again in .5 seconds.
         self.after(50, self.idle_player_change)
 
-    def __get_album_art(self, _: Optional[Any] = None):
+    def __get_album_art(self):
         """
         Downloads album art for the current song if the album has changed
         since the last call. Resizes the downloaded art to 512x512 if it's
         larger then that. Calls `display_album_art`.
-
-        :arg _: Unused argument for the keybind.
         """
 
         # Don't display album art if the current song is stop.
