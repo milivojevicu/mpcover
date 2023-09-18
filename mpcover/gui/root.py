@@ -49,8 +49,9 @@ class Root(tk.Tk):
         self.__connection: Connection = Connection(*address)
         self.__controler: Controler = Controler(self.__connection, password)
 
-        # Colors.
-        self.__color_background: str = "#141414"  # Dark gray.
+        # Read configuration.
+        self.__color_background: str = config.get("style", "background")
+        self.__padding: int = config.getint("style", "padding")
 
         # Configure window.
         self.title("MPCover")
@@ -64,7 +65,7 @@ class Root(tk.Tk):
         self.__canvas: tk.Canvas = tk.Canvas(
             self, highlightthickness=0, background=self.__color_background
         )
-        self.__canvas.grid(column=0, row=0, padx=12, pady=12, sticky="nwes")
+        self.__canvas.grid(column=0, row=0, padx=self.__padding, pady=self.__padding, sticky="nwes")
         self.__canvas.bind("<Configure>", self.__display_album_art)
 
         # Canvas size, updated on `<Configure>` events.

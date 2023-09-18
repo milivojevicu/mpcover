@@ -25,12 +25,16 @@ Example configuration file:
 [connection]
 # Connection settings. The password is optional, to leave it unset simply remove
 # the "password = ..." line from the configuration file.
-port = 6600
 host = localhost
+port = 6600
 password = example_password
 
 [logging]
 level = info
+
+[style]
+background = #141414
+padding = 12
 
 [binds]
 # The values should be `tkinter` key bind strings.
