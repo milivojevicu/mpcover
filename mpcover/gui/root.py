@@ -52,11 +52,18 @@ class Root(tk.Tk):
         # Read configuration.
         self.__color_background: str = config.get("style", "background")
         self.__padding: int = config.getint("style", "padding")
+        self.__image_size: int = config.getint("other", "image_size")
 
         # Configure window.
         self.title("MPCover")
-        self.geometry("512x512")
         self.configure(background=self.__color_background)
+        # The geometry doesn't always apply. There is a lower limit for window size so
+        # if the image size is _really_ small, the window won't resize to it perfectly.
+        self.geometry(
+            str(self.__image_size + 2 * self.__padding)
+            + "x"
+            + str(self.__image_size + 2 * self.__padding)
+        )
 
         # Window close hook.
         self.protocol("WM_DELETE_WINDOW", self.close)
@@ -79,8 +86,7 @@ class Root(tk.Tk):
         # Original image retrieved from MPD. Kept in order to stop repeated
         # resizing from lowering the quality of the image by always using
         # the original image when resizing instead of the displayed one.
-        # Always first resized to 512x512 for better performance with rapid
-        # window size changes.
+        # Always first resized for better performance with rapid window size changes.
         self.__album_art_original: Optional[Image.Image] = None
         # Image rescaled for window size.
         self.__album_art: Optional[ImageTk.PhotoImage] = None
@@ -142,8 +148,8 @@ class Root(tk.Tk):
     def __get_album_art(self):
         """
         Downloads album art for the current song if the album has changed
-        since the last call. Resizes the downloaded art to 512x512 if it's
-        larger then that. Calls `display_album_art`.
+        since the last call. Resizes the downloaded art if it's larger then that.
+        Calls `display_album_art`.
         """
 
         # Don't display album art if the current song is stop.
@@ -176,8 +182,10 @@ class Root(tk.Tk):
             self.__album_art_original = Image.open(io.BytesIO(data))
             logger.debug(type(self.__album_art_original))
             # Resize if image is large.
-            if self.__album_art_original.size > (512, 512):
-                self.__album_art_original = self.__album_art_original.resize((512, 512))
+            if self.__album_art_original.size > (self.__image_size, self.__image_size):
+                self.__album_art_original = self.__album_art_original.resize(
+                    (self.__image_size, self.__image_size)
+                )
         else:
             self.__album_art_original = None
 
