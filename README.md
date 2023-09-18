@@ -39,5 +39,9 @@ padding = 12
 [binds]
 # The values should be `tkinter` key bind strings.
 refresh = r
+quit = q
+
+[other]
+image_size = 512
 ```
 

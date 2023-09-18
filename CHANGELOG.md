@@ -1,3 +1,9 @@
+## Version 0.3.0
+
+- [x] Configurable style.
+- [x] Configurable image size.
+- [x] Quit keybind.
+
 ## Version 0.2.0
 
 - [x] Handle no album art being available when the file is missing.
