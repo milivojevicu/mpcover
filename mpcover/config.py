@@ -20,6 +20,10 @@ __DEFAULTS_BINDS = {
     "quit": "q",
 }
 
+__DEFAULTS_OTHER = {
+    "image_size": "512",
+}
+
 __CONFIG = None
 
 
@@ -40,6 +44,7 @@ def get_config():
     config.read_dict({"logging": __DEFAULTS_LOGGING})
     config.read_dict({"style": __DEFAULTS_STYLE})
     config.read_dict({"binds": __DEFAULTS_BINDS})
+    config.read_dict({"other": __DEFAULTS_OTHER})
 
     # Read user settings from a file.
     config.read(os.path.expanduser(os.path.join("~", ".mpcover.ini")))
