@@ -5,7 +5,7 @@
 Python program for displaying album covers of music currently playing through MPD using tkinter.
 
 <p align="center">
-  <img src="images/screenshot_0.png" />
+  <img src="images/screenshot_0.png" width="500"/>
 </p>
 
 ## Installation
