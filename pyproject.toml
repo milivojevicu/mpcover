@@ -17,20 +17,13 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.12.0"
-pycln = "^2.2.2"
-black = "^23.9.1"
-pyright = "^1.1.327"
+ruff = "^0.1.14"
 
 [tool.isort]
 profile = "black"
 
-[tool.pycln]
-all = true
-exclude = "__init__.py"
-
-[tool.black]
+[tool.ruff]
 line-length = 100
-target-version = ["py37", "py38", "py39", "py310"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
