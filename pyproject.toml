@@ -16,7 +16,6 @@ mpcover = 'mpcover.__main__:run'
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-isort = "^5.12.0"
 ruff = "^0.1.14"
 
 [tool.isort]
@@ -24,6 +23,7 @@ profile = "black"
 
 [tool.ruff]
 line-length = 100
+extend-select = ["I"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
