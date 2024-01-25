@@ -26,18 +26,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      
     - name: Setup Poetry
-      uses: Gr1N/setup-poetry@v7
-        
+      run: |
+        pip install poetry
     - name: Install
       run: |
         poetry install -vv
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
