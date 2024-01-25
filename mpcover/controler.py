@@ -2,16 +2,18 @@ from __future__ import annotations
 
 import logging
 import re
-import sys
 from multiprocessing import Queue
-from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
-
 from .connection import Connection
+import sys
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
+import os
+
 
 logger = logging.getLogger(__name__)
 
 
-def generic_command(method: Callable) -> Callable:
+def generic_command(method: Callable
+                    ) -> Callable:
     """
     Decorator for generic command methods. Uses the method name as the
         command.
@@ -61,15 +63,18 @@ class Controler:
         :arg password: Optional password.
         """
 
-        if self.__password is not None:
+        if self.__password != None:
             self.__connection.send(f'password "{self.__password}"'.encode())
             response = self.__connection.recv().decode()
             if response != "OK\n":
-                logger.critical("Failed to authenticate with message: %s", response[:-1])
+                logger.critical("Failed to authenticate with message: %s",
+                                response[:-1])
                 logger.critical("Exiting...")
                 sys.exit(201)
             else:
                 logger.info("Successful authentication.")
+
+
         else:
             logger.info("No password provided, assuming successful connection.")
 
