@@ -16,7 +16,7 @@ mpcover = 'mpcover.__main__:run'
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.1.14"
+ruff = ">=0.1.14,<0.3.0"
 
 [tool.isort]
 profile = "black"
