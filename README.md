@@ -18,7 +18,7 @@ pip install mpcover
 
 ## Configuration
 
-The configuration file should be located in the user home directory with the name ".mpcover.init".
+The configuration file should be located in the user home directory with the name ".mpcover.ini".
 
 For more information on where the user home directory is,
 reference [`os.path.expanduser`](https://docs.python.org/3/library/os.path.html#os.path.expanduser).
